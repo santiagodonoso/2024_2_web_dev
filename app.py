@@ -1,9 +1,16 @@
-from bottle import get, run, template, static_file, post, put, delete
+from bottle import get, run, template, static_file, post, put, delete, response
+import json
 
 ##############################
 @get("/") # decorator
 def index():
     return template("index")
+
+##############################
+@get("/about-us")
+def _():
+    return template("about_us")
+
 
 ##############################
 @get("/app.css")
@@ -39,7 +46,13 @@ HTTP METHOD DELETE TO DELETE DATA
 ##############################
 @get("/items")
 def _():
-    return "xxxxxxxx"
+    # list is an array
+    item = {"id":1, "name":"a"}
+    # convert list to string
+    # type casting or cast
+    # dumps stands for dump string
+    response.content_type = "application/json"
+    return json.dumps([item])
 
 ##############################
 @get("/items/<id>")
