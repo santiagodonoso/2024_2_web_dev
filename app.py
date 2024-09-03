@@ -1,9 +1,9 @@
-from bottle import get, run
+from bottle import get, run, template
 
 ##############################
-@get("/")
+@get("/") # decorator
 def index():
-    return "Santiago"
+    return template("index")
 
 
 
