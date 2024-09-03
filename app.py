@@ -10,6 +10,12 @@ def index():
 def _():
     return static_file("app.css", ".")
 
+##############################
+@get("/app.js")
+def _():
+    return static_file("app.js", ".")
+
+
 
 
 ##############################
