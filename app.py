@@ -1,9 +1,14 @@
-from bottle import get, run, template
+from bottle import get, run, template, static_file
 
 ##############################
 @get("/") # decorator
 def index():
     return template("index")
+
+##############################
+@get("/app.css")
+def _():
+    return static_file("app.css", ".")
 
 
 
