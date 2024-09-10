@@ -1,95 +1,38 @@
-from bottle import get, run, template, static_file, post, put, delete, response
-import json
+from bottle import default_app, get, post, response
+import x
 
-##############################
-@get("/") # decorator
-def index():
-    return template("index")
 
+# docker compose up --build
 ##############################
-@get("/about-us")
+@get("/")
 def _():
-    return template("about_us")
-
+    return "x"
 
 ##############################
-@get("/app.css")
+@post("/login")
 def _():
-    return static_file("app.css", ".")
+    try:
+        # Validate the data from the client
+        user_email = x.validate_user_email()        
+        user_password = x.validate_user_password()    
+        return {
+            "error":"no",
+            "message":""
+        }
+    except Exception as ex:
+        print("#"*30)
+        print(ex.args[0])
+        print(ex.args[1])
+        response.status = ex.args[1]
+        return {
+            "error":"yes",
+            "message":ex.args[0]
+        }
+    finally:
+        pass
 
 ##############################
-@get("/app.js")
-def _():
-    return static_file("app.js", ".")
-
-# API
-##############################
-"""
-CREATE READ UPDATE DELETE ALSO KNOWN AS THE CRUD
-
-HTTP METHOD GET to READ data
-/items
-
-HTTP METHOD POST TO CREATE DATA
-/items
-
-HTTP METHOD PUT TO UPDATE DATA
-/items/<id>
-
-HTTP METHOD DELETE TO DELETE DATA
-/items/<id>
-
-
-
-"""
-
-##############################
-@get("/items")
-def _():
-    # list is an array
-    item = {"id":1, "name":"a"}
-    # convert list to string
-    # type casting or cast
-    # dumps stands for dump string
-    response.content_type = "application/json"
-    return json.dumps([item])
-
-##############################
-@get("/items/<id>")
-def _(id):
-    # dictionary
-    item = {
-        "id" : 1,
-        "name" : "a"
-    }
-    return item
-
-##############################
-@post("/items")
-def _():
-    return "items created"
-
-##############################
-# f string
-@put("/items/<id>")
-def _(id):
-    return f"item {id} updated"
-
-##############################
-@delete("/items/<id>")
-def _(id):
-    return f"item {id} deleted"
-
-##############################
-run(host="0.0.0.0", port=80, debug=True, reloader=True, interval=0.3)
-
-
-
-
-
-
-
-
+application = default_app()
 
 
 
